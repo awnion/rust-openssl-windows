@@ -6,7 +6,6 @@ on:
       - main
       - dev
 
-
 permissions:
   contents: write
 
@@ -32,24 +31,24 @@ jobs:
   build:
     runs-on: "${{ matrix.os }}"
     strategy:
-      fail-fast: true
+      fail-fast: false 
       matrix:
         include:
           - os: macos-latest
             target: aarch64-apple-darwin
-            name: git-remote-gosh-darwin-arm64
+            name: rust-openssl-windows-darwin-arm64
           - os: macos-latest
             target: x86_64-apple-darwin
-            name: git-remote-gosh-darwin-amd64
+            name: rust-openssl-windows-darwin-amd64
           - os: ubuntu-latest
             target: aarch64-unknown-linux-gnu
-            name: git-remote-gosh-linux-arm64
+            name: rust-openssl-windows-linux-arm64
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
-            name: git-remote-gosh-linux-amd64
+            name: rust-openssl-windows-linux-amd64
           - os: windows-latest
             target: x86_64-pc-windows-msvc
-            name: git-remote-gosh-windows-amd64
+            name: rust-openssl-windows-windows-amd64
 
     steps:
       - name: Checkout repo
@@ -96,4 +95,9 @@ jobs:
       - name: Cargo Build
         shell: bash
         run: |
-          cargo build --release
+          cargo build --release --target=${{ matrix.target }}
+      
+      - uses: actions/upload-artifact@v3
+        with:
+          path: target/${{ matrix.target }}/release/rust-openssl-windows*
+          name: ${{ matrix.name }}
