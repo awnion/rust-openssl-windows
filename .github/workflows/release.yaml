@@ -99,6 +99,8 @@ jobs:
         shell: bash
         run: |
           cargo build --release --target=${{ matrix.target }}
+          mkdir ${{ matrix.name }}
+          mv target/${{ matrix.target }}/release/rust-openssl-windows ${{ matrix.name }}
       
       # - uses: actions/upload-artifact@v3
       #   with:
