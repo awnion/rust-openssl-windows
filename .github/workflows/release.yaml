@@ -40,18 +40,18 @@ jobs:
           # - os: macos-latest
           #   target: x86_64-apple-darwin
           #   name: rust-openssl-windows-darwin-amd64
-          # - os: ubuntu-latest
-          #   target: aarch64-unknown-linux-gnu
-          #   name: rust-openssl-windows-linux-arm64
-          # - os: ubuntu-latest
-          #   target: x86_64-unknown-linux-gnu
-          #   name: rust-openssl-windows-linux-amd64
-          - os: windows-latest
-            target: x86_64-pc-windows-msvc
-            name: rust-openssl-windows-windows-amd64
-          - os: windows-latest
-            target: x86_64-pc-windows-gnu
-            name: rust-openssl-windows-windows-amd64-gnu
+          - os: ubuntu-latest
+            target: aarch64-unknown-linux-gnu
+            name: rust-openssl-windows-linux-arm64
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            name: rust-openssl-windows-linux-amd64
+          # - os: windows-latest
+          #   target: x86_64-pc-windows-msvc
+          #   name: rust-openssl-windows-windows-amd64
+          # - os: windows-latest
+          #   target: x86_64-pc-windows-gnu
+          #   name: rust-openssl-windows-windows-amd64-gnu
 
     steps:
       - name: Checkout repo
@@ -102,5 +102,15 @@ jobs:
       
       - uses: actions/upload-artifact@v3
         with:
-          path: target/${{ matrix.target }}/release/rust-openssl-windows*
+          path: target/${{ matrix.target }}/release/rust-openssl-windows
           name: ${{ matrix.name }}
+
+      - name: Upload Github Assets
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: |
+            target/${{ matrix.target }}/release/rust-openssl-windows
+          prerelease: true
+          tag_name: ${{ github.ref_name }}
