@@ -86,7 +86,7 @@ jobs:
         shell: bash
         run: |
           sudo apt update -qy
-          sudo apt install -qy libc6-dev-amd64-cross libc6-dev-arm64-cross aarch64-linux-gnu-gcc
+          sudo apt install -qy libc6-dev-amd64-cross libc6-dev-arm64-cross gcc-aarch64-linux-gnu
           rustup target add aarch64-unknown-linux-gnu
 
       - name: Add cross compile Win tools
@@ -100,15 +100,15 @@ jobs:
         run: |
           cargo build --release --target=${{ matrix.target }}
       
-      - uses: actions/upload-artifact@v3
-        with:
-          path: target/${{ matrix.target }}/release/rust-openssl-windows
-          name: ${{ matrix.name }}
+      # - uses: actions/upload-artifact@v3
+      #   with:
+      #     path: target/${{ matrix.target }}/release/rust-openssl-windows
+      #     name: ${{ matrix.name }}
 
-      - uses: actions/download-artifact@v3
-        with:
-          path: target/${{ matrix.target }}/release/rust-openssl-windows
-          name: ${{ matrix.name }}
+      # - uses: actions/download-artifact@v3
+      #   with:
+      #     path: target/${{ matrix.target }}/release/rust-openssl-windows
+      #     name: ${{ matrix.name }}
       
       - name: Tarball
         run: |
