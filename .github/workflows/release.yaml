@@ -86,7 +86,7 @@ jobs:
         shell: bash
         run: |
           sudo apt update -y
-          sudo apt install -y build-essential g++-x86-64-linux-gnu libc6-dev-amd64-cross g++-aarch64-linux-gnu libc6-dev-arm64-cross gcc-aarch64-linux-gnu
+          sudo apt install -y libc6-dev-amd64-cross libc6-dev-arm64-cross
           rustup target add aarch64-unknown-linux-gnu
 
       - name: Add cross compile Win tools
@@ -105,12 +105,19 @@ jobs:
           path: target/${{ matrix.target }}/release/rust-openssl-windows
           name: ${{ matrix.name }}
 
+      - uses: actions/download-artifact@v3
+        with:
+          path: target/${{ matrix.target }}/release/rust-openssl-windows
+          name: ${{ matrix.name }}
+      
+      - name: Tarball
+        run: |
+          tar -czvf ${{ matrix.name }}.tar.gz -C ${{ matrix.name }} .
+
       - name: Upload Github Assets
         uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           files: |
             target/${{ matrix.target }}/release/rust-openssl-windows
           prerelease: true
-          tag_name: ${{ github.ref_name }}
+          tag_name: rc-${{ github.ref_name }}-${{ github.run_number }}
