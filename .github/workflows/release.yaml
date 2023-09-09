@@ -120,6 +120,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            target/${{ matrix.target }}/release/rust-openssl-windows
+            ${{ matrix.name }}.tar.gz
           prerelease: true
           tag_name: rc-${{ github.ref_name }}-${{ github.run_number }}
