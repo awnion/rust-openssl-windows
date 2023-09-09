@@ -49,6 +49,9 @@ jobs:
           - os: windows-latest
             target: x86_64-pc-windows-msvc
             name: rust-openssl-windows-windows-amd64
+          - os: windows-latest
+            target: x86_64-pc-windows-gnu
+            name: rust-openssl-windows-windows-amd64-gnu
 
     steps:
       - name: Checkout repo
