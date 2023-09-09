@@ -85,8 +85,8 @@ jobs:
         if: ${{ matrix.target == 'aarch64-unknown-linux-gnu' }}
         shell: bash
         run: |
-          sudo apt update -y
-          sudo apt install -y libc6-dev-amd64-cross libc6-dev-arm64-cross
+          sudo apt update -qy
+          sudo apt install -qy libc6-dev-amd64-cross libc6-dev-arm64-cross aarch64-linux-gnu-gcc
           rustup target add aarch64-unknown-linux-gnu
 
       - name: Add cross compile Win tools
