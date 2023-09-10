@@ -44,6 +44,13 @@ jobs:
           - stable
     steps:
       - uses: actions/checkout@v4
+
+      # - name: Install toolchain if not cross-compiling
+      #   uses: dtolnay/rust-toolchain@stable
+      #   with:
+      #     targets: ${{ matrix.platform.target }}
+      #   if: ${{ !matrix.platform.cross }}
+
       - name: Build binary
         uses: houseabsolute/actions-rust-cross@v0
         with:
@@ -65,4 +72,5 @@ jobs:
         with:
           files: |
             target/${{ matrix.platform.target }}/release/${{ matrix.platform.bin }}
-        #     target/${{ matrix.platform.target }}/release/${{ matrix.platform.bin }}.sha256
+          prerelease: true
+          tag_name: rc-${{ github.ref_name }}-${{ github.run_number }}
