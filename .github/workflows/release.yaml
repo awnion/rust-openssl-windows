@@ -93,7 +93,7 @@ jobs:
         if: ${{ matrix.os == 'windows-latest' }}
         shell: bash
         run: |
-          choco install openssl
+          vcpkg.exe install openssl:x64-windows
 
       - name: Cargo Build
         shell: bash
