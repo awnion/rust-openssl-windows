@@ -26,6 +26,7 @@ env:
   ## TODO: why?
   # BINDGEN_EXTRA_CLANG_ARGS": '--sysroot /usr/arm-linux-gnueabi'
   RUSTFLAGS: -C target-feature=+crt-static
+  OPENSSL_NO_VENDOR: 1
 
 jobs:
   build:
